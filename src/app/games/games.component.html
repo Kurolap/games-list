@@ -1,0 +1,98 @@
+<h1>Games List</h1>
+<div *ngIf="loading" class="spinner-border text-secondary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+
+<div *ngIf="!loading">
+  <div>
+    <input
+      (keyup)="searchByName($event.target.value)"
+      placeholder="search by name"
+    />
+    <select (change)="filterByCategory($event.target.value)">
+      <option value="">all categories</option>
+      <option *ngFor="let category of categories" value="{{ category.ID }}">{{
+        category.Name.en
+      }}</option>
+    </select>
+    <select (change)="filterByMerchant($event.target.value)">
+      <option value="">all merchants</option>
+      <option *ngFor="let merchant of merchants" value="{{ merchant.ID }}">{{
+        merchant.Name
+      }}</option>
+    </select>
+  </div>
+
+  <div>
+    <input type="checkbox" (click)="toggleFavorites()" for="isOnlyFavorites" />
+    <label id="isOnlyFavorites">Only favorites</label>
+  </div>
+
+  <div>
+    <select
+      (change)="setFavoritesNumber($event.target.value)"
+      id="favoritesNumber"
+    >
+      <option value="{{ 0 }}">0</option>
+      <option value="{{ 5 }}">5</option>
+      <option value="{{ 10 }}">10</option>
+      <option value="{{ 20 }}">20</option>
+      <option value="{{ 50 }}">50</option>
+    </select>
+    <label for="favoritesNumber">Show favorite first</label>
+  </div>
+
+  <div>
+    <select (change)="setItemsPerPage($event.target.value)" id="itemsPerPage">
+      <option value="{{ 5 }}">5</option>
+      <option value="{{ 10 }}">10</option>
+      <option value="{{ 20 }}">20</option>
+      <option value="{{ 50 }}">50</option>
+      <option value="{{ 100 }}">100</option>
+    </select>
+    <label for="itemsPerPage"> Items per Page</label>
+  </div>
+  <span>All games quantity: {{ games.length }}</span>
+  <pagination-controls
+    (pageChange)="currentPage = $event"
+  ></pagination-controls>
+  <div
+    *ngFor="
+      let game of filteredGames
+        | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }
+    "
+    class="card"
+    style="width: 18rem;"
+  >
+    <img
+      src="{{ game.ImageFullPath }}"
+      class="card-img-top"
+      alt="{{ game.Name.en }}"
+    />
+    <div class="card-body">
+      <h5 class="card-title">{{ game.Name.en }}</h5>
+      <p class="card-text">Category ID: {{ game.CategoryID }}</p>
+      <p class="card-text">Merchant name: {{ game.merchantName }}</p>
+      <div class="d-flex justify-content-around align-self-center">
+        <a href="#" class="btn btn-primary" (click)="addToFavorites(game.ID)">{{
+          game.favoriteButtonText
+        }}</a>
+        <button class="btn">
+          <svg
+            width="2em"
+            height="2em"
+            viewBox="0 0 16 16"
+            class="bi bi-arrow-right-circle-fill text-primary"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-8.354 2.646a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L9.793 7.5H5a.5.5 0 0 0 0 1h4.793l-2.147 2.146z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
