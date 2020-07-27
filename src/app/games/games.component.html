@@ -4,34 +4,53 @@
 </div>
 
 <div *ngIf="!loading">
-  <div>
-    <input
-      (keyup)="searchByName($event.target.value)"
-      placeholder="search by name"
-    />
-    <select (change)="filterByCategory($event.target.value)">
-      <option value="">all categories</option>
-      <option *ngFor="let category of categories" value="{{ category.ID }}">{{
-        category.Name.en
-      }}</option>
-    </select>
-    <select (change)="filterByMerchant($event.target.value)">
-      <option value="">all merchants</option>
-      <option *ngFor="let merchant of merchants" value="{{ merchant.ID }}">{{
-        merchant.Name
-      }}</option>
-    </select>
-  </div>
+  <form>
+    <div class="form-group row">
+      <div class="row col-md-12">
+        <input
+          type="text"
+          class="form-control"
+          (keyup)="searchByName($event.target.value)"
+          placeholder="search by name"
+        />
+        <div class="d-flex">
+          <select
+            class="form-control col-5"
+            (change)="filterByCategory($event.target.value)"
+          >
+            <option value="">all categories</option>
+            <option
+              *ngFor="let category of categories"
+              value="{{ category.ID }}"
+              >{{ category.Name.en }}</option
+            >
+          </select>
+          <select
+            class="form-control col-5"
+            (change)="filterByMerchant($event.target.value)"
+          >
+            <option value="">all merchants</option>
+            <option
+              *ngFor="let merchant of merchants"
+              value="{{ merchant.ID }}"
+              >{{ merchant.Name }}</option
+            >
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
 
   <div>
     <input type="checkbox" (click)="toggleFavorites()" for="isOnlyFavorites" />
-    <label id="isOnlyFavorites">Only favorites</label>
+    <label>Only favorites</label>
   </div>
 
-  <div>
+  <div class="form-group row">
+    <label for="favoritesNumber" class="my-1 mr-4">Show favorite first</label>
     <select
       (change)="setFavoritesNumber($event.target.value)"
-      id="favoritesNumber"
+      class="form-control row col-sm-2"
     >
       <option value="{{ 0 }}">0</option>
       <option value="{{ 5 }}">5</option>
@@ -39,23 +58,30 @@
       <option value="{{ 20 }}">20</option>
       <option value="{{ 50 }}">50</option>
     </select>
-    <label for="favoritesNumber">Show favorite first</label>
   </div>
 
-  <div>
-    <select (change)="setItemsPerPage($event.target.value)" id="itemsPerPage">
+  <div class="form-group row">
+    <label for="itemsPerPage" class="my-1 mr-5"> Items per Page</label>
+    <select
+      (change)="setItemsPerPage($event.target.value)"
+      class="form-control row col-sm-2"
+    >
       <option value="{{ 5 }}">5</option>
       <option value="{{ 10 }}">10</option>
       <option value="{{ 20 }}">20</option>
       <option value="{{ 50 }}">50</option>
       <option value="{{ 100 }}">100</option>
     </select>
-    <label for="itemsPerPage"> Items per Page</label>
   </div>
-  <span>All games quantity: {{ games.length }}</span>
-  <pagination-controls
-    (pageChange)="currentPage = $event"
-  ></pagination-controls>
+  <div>
+    <span>All games quantity: {{ games.length }}</span>
+  </div>
+  <br />
+  <div>
+    <pagination-controls
+      (pageChange)="currentPage = $event"
+    ></pagination-controls>
+  </div>
   <div
     *ngFor="
       let game of filteredGames

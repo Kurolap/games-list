@@ -1,11 +1,15 @@
-<nav>
-  <ul>
-    <li><a routerLink="" routerLinkActive="active">Games</a></li>
-    <li><a routerLink="merchants" routerLinkActive="active">Merchants</a></li>
-  </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="nav-item">
+    <a class="nav-link" routerLink="" routerLinkActive="active">Games</a>
+  </div>
+  <div class="nav-item">
+    <a class="nav-link" routerLink="merchants" routerLinkActive="active"
+      >Merchants</a
+    >
+  </div>
 </nav>
 <div class="app-wrapper">
   <div class="d-flex justify-content-around">
-    <router-outlet></router-outlet>
+    <router-outlet class="app-container"></router-outlet>
   </div>
 </div>
